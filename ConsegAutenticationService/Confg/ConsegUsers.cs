@@ -1,4 +1,4 @@
-﻿using IdentityServer3.Core;
+using IdentityServer3.Core;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services.InMemory;
 using System;
@@ -20,14 +20,23 @@ namespace LinxServerAuthentication.Confg
 
             foreach (var item in resultUser)
             {
-                List<Repository.entidades.RolesAccess> roles = db._RolesAccess.Where(d => d.IdUser == item.Id).ToList();
-                List<Repository.entidades.UserClaimsConseg> claimsUser = db._UserClaimsConseg.Where(d => d.IdUser == item.Id).ToList();
+                List<Repository.entidades.RolesAccess> roles = db._RolesAccess.Where(d => d.IdUser.ToString() == item.Subject).ToList();
+                List<Repository.entidades.UserClaimsConseg> claimsUser = db._UserClaimsConseg.Where(d => d.IdUser.ToString() == item.Subject).ToList();
 
-                // string Name = claimsUser.Where(d=>d.IdUser == item.Id).Select(d => d.Name).SingleOrDefault().ToString();
+                string Name = claimsUser.Where(d=> d.IdUser.ToString() == item.Subject).Select(d => d.Name).SingleOrDefault().ToString();
 
-                var admin = roles.Count(d => d.IdUser == item.Id && d.Value == "Admin") == 0 ? "Nao" : "Admin";
-                var sivic = roles.Count(d => d.IdUser == item.Id && d.Value == "Sivic") == 0 ? "Nao" : "Sivic";
-                var Area = roles.Count(d => d.IdUser == item.Id && d.Value == "Area") == 0 ? "Nao" : "Area";
+                var ADMIN = roles.Count(d => d.IdUser.ToString() == item.Subject && d.Value == "ADMIN") == 0 ? "NAO" : "ADMIN";
+                var USER = roles.Count(d => d.IdUser.ToString() == item.Subject && d.Value == "USER") == 0 ? "NAO" : "USER";
+                var CLIENTE = roles.Count(d => d.IdUser.ToString() == item.Subject && d.Value == "CLIENTE") == 0 ? "NAO" : "CLIENTE";
+                var ACESSOLIMIT = "";
+
+                if (ADMIN == "ADMIN")
+                    ACESSOLIMIT = "ADMIN";
+                if (ADMIN == "USER")
+                    ACESSOLIMIT = "USER";
+                if (ADMIN == "CLIENTE")
+                    ACESSOLIMIT = "CLIENTE";
+
 
                 var InUserMemory = new InMemoryUser
                 {
@@ -42,9 +51,8 @@ namespace LinxServerAuthentication.Confg
                         new Claim(Constants.ClaimTypes.Secret, "LinxClient".Sha256()),//claimsUser.Select(d=>d.Secret).SingleOrDefault().ToString().Sha256()),
                         new Claim(Constants.ClaimTypes.Email, "paulo000natale@gmail.com"),//claimsUser.Select(d=>d.Email).SingleOrDefault().ToString()),
                         new Claim(Constants.ClaimTypes.EmailVerified, "paulo000natale@gmail.com"),//claimsUser.Select(d=>d.EmailVerified).SingleOrDefault().ToString(),ClaimValueTypes.Boolean),
-                        new Claim(Constants.ClaimTypes.Role,admin),
-                        new Claim(Constants.ClaimTypes.Role,sivic),
-                        new Claim(Constants.ClaimTypes.Role,Area)
+                        new Claim(Constants.ClaimTypes.Role,ACESSOLIMIT)
+                     
                     }
 
                 };
@@ -53,4 +61,3 @@ namespace LinxServerAuthentication.Confg
             return InUser;
          }
     }
-}
