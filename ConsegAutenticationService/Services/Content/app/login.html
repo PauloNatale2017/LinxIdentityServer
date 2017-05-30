@@ -1,0 +1,391 @@
+﻿
+<!DOCTYPE html>
+
+<html ng-app="app" ng-controller="LayoutCtrl">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{siteName}</title>
+   
+    {style1}
+    {style2}
+    {style3}
+    {style4}    
+
+ 
+   
+      
+</head>
+<body lang="en">
+    
+   
+
+    <header>
+        <!--<div class="navbar ">-->
+            <div class="painel">
+                <div class="row">
+                    <div class="col col-md-12 text-right">
+                        <ul class="breadcrumb dropdown-menu">
+                            <li><a href="{{model.logoutUrl}}">Logout</a></li>
+                            <li class="divider" ng-show="model.loginWithDifferentAccountUrl"></li>
+                            <li><a href="{{model.loginWithDifferentAccountUrl}}" ng-show="model.loginWithDifferentAccountUrl">Login With Different Account</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row marginbottom1">
+                        <div class="col-xs-5 col-sm-2 col-md-1 margintop2">
+                            <a href="entrada.html">
+                                <!--<img src="../../../packagsConseg/img/logo_conseg.png" alt="logomarca">-->
+                            </a>
+                        </div>
+                        <div class="col-xs-7 hidden-xs col-sm-8 col-md-8 margintop2">
+                            <div class="textologo floatleft">LINX</div>
+                            <div class="textosecretaria">&nbsp;SOFTWARE QUE MOVE O VAREJO</div>
+                            <div class="textoconseg">&nbsp;SERVIDOR DE AUTENTICAÇÃO PARA SISTEMAS INTEGRADOS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-header">
+                <!--<span class="navbar-brand">{siteName}</span>-->
+            </div>
+            <ul class="nav navbar-nav" ng-show="model.currentUser" ng-cloak>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{model.currentUser}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{model.logoutUrl}}">Logout</a></li>
+                        <li class="divider" ng-show="model.loginWithDifferentAccountUrl"></li>
+                        <li><a href="{{model.loginWithDifferentAccountUrl}}" ng-show="model.loginWithDifferentAccountUrl">Login With Different Account</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        <div class="page-header">
+            <!--<h1>
+                This is a custom view
+                <small ng-show="clientName"><strong>{clientName}</strong> is asking you to login</small>
+            </h1>-->
+        </div>
+    </div>
+    
+    <main>
+        <div class='container page-login' ng-cloak>
+            <!--<div class="page-header">
+                <h1>Login</h1>
+            </div>-->
+
+            <div class="row" ng-show="model.errorMessage">
+                <div class="col-md-12 col-sm-12">
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong>
+                        {{model.errorMessage}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-6"  ng-show="model.loginUrl">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">PAINEL DE AUTENTICAÇÃO</h3>
+                        </div>
+                        <div class="panel-body" style="float:left !important;width:550px !important">
+                            <form name="form" method="post" action="{{model.loginUrl}}">
+                                <anti-forgery-token token="model.antiForgery"></anti-forgery-token>
+
+                                <fieldset>
+
+                                    <div class="form-group">
+                                        <label for="username">Usuário</label>
+                                        <input required name="username" autofocus id="username" type="text" class="form-control" placeholder="Usuário" ng-model="model.username" maxlength="100">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password">Senha</label>
+                                        <input required id="password" name="password" type="password" class="form-control" placeholder="Senha" ng-model="model.password" maxlength="100" autocomplete="off">
+                                    </div>
+
+                                    <!--<div class="form-group">
+                                        <label for="ConfirmePassword">Confirme Password</label>
+                                        <input required id="ConfirmePassword" name="ConfirmePassword" type="password" class="form-control" placeholder="Confirme Password" ng-model="model.ConfirmePassword" maxlength="100" autocomplete="off">
+                                    </div>-->
+
+                                    <div class="form-group login-remember" ng-show="model.allowRememberMe">
+                                        <label for="rememberMe">
+                                            <input type="checkbox" id="rememberMe" name="rememberMe" ng-model="model.rememberMe" value="true">
+                                            <strong>Lembrar meu login</strong>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button ng-click="Login()" class="btn btn-primary" ng-disabled="form.$invalid">Login</button>
+                                    </div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li ng-repeat="link in model.additionalLinks"><a ng-href="{{link.href}}">{{link.text}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 external-providers" ng-show="model.externalProviders">
+                    <div class="panel panel-default" style="float:left !important;width:550px !important">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Servidor de Autenticação LINX</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <ul class="list-inline">
+                                <li>
+                                    <div class="form-group">
+                                        <!--<button ng-click="Login()" class="btn btn-primary" ng-disabled="form.$invalid">Solicitação de Acessos</button>-->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Solicitação de Acessos</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#BuscaModal">Busca Usuarios Conseg</button>
+                                    </div>
+                                <!--<li ng-repeat="provider in model.externalProviders">
+                                    <a class="btn btn-default" href="{{provider.href}}">{{provider.text}}</a>
+                                </li>--> 
+                            </ul>
+                        </div>
+                    </div>
+                  </div>
+               </div>
+            </div>      
+    </main>
+
+     <!--Modal--> 
+    <div >
+
+
+
+    <div id="BuscaModal" class="modal fade" role="dialog" >
+        <div class="modal-dialog modal-lg">
+           
+            <!-- Modal content-->
+            <div class="modal-content"/>
+                <div class="modal-header">                   
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sistema de Busca de Usuarios LINX</h4>
+                </div>
+
+                <div class="modal-body">
+                    
+                     <div class="form-group">
+                        <a href="#demo"  class="btn btn-primary" data-toggle="collapse">Persquisa</a>
+                        <!--<a href="#demo1" class="btn btn-primary" data-toggle="collapse">Credenciais</a>-->
+                        <a href="#demo2" class="btn btn-primary" data-toggle="collapse">Sistemas</a>
+                        <a href="#demo3" class="btn btn-primary" data-toggle="collapse" >Tabela de Usuarios</a>
+                        <br /><hr />
+                            <div id="demo" class="collapse">
+                                <div class="form-group">
+                                    <label for="usuarioForm">Usuário</label>
+                                    <input type="text" id="usuarioForm" class="form-control" ng-model="model.NomeU" name="usuarioForm" placeholder="Insira o nome completo.." value="" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailForm">E-mail</label>
+                                    <input type="text" id="emailForm" class="form-control" ng-model="model.email" name="emailForm" placeholder="Insira seu  email.." value="" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="superiorForm">Superior</label>
+                                    <input type="text" id="superiorForm" class="form-control" ng-model="model.Superior" name="superiorForm" placeholder="Insira o nome do usuario" value="" />
+                                </div>
+                              
+                            </div>
+                            <div id="demo1" class="collapse">
+                                <div class="form-group">
+                                    <label for="usuarioForm">Usuário</label>
+                                    <input type="text" id="usuarioForm" class="form-control" ng-model="model.NomeU" name="usuarioForm" placeholder="Insira o nome completo.." value="" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailForm">E-mail</label>
+                                    <input type="text" id="emailForm" class="form-control" ng-model="model.email" name="emailForm" placeholder="Insira seu  email.." value="" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="superiorForm">Superior</label>
+                                    <input type="text" id="superiorForm" class="form-control" ng-model="model.Superior" name="superiorForm" placeholder="Insira o nome do usuario" value="" />
+                                </div>
+                               
+                            </div>
+                            <div id="demo2" class="collapse">
+                                <div class="form-group" style="display:inline-flex">
+
+                                    <div style="float: none;position: relative;padding: 0px 10px;text-align: center;">
+                                        <strong>ADMINISTRACAO</strong>
+                                        <div>
+                                            <input id="admin" type="checkbox" name="admin" checked>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                       
+
+                         <div id="demo3" class="collapse">
+                             <!--<div class="table-responsive">
+            <table  id="table"
+                    data-height="460"
+                    class="table table-hover">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th data-field="mem_net_id">Usuario</th>
+                        <th data-field="mem_net_grp">Grupo</th>
+                        <th data-field="mem_tp_membro">Estatus do Membro</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+         </div>-->
+                            
+                             <div style="float:none;">
+                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                 <button type="button" ng-click="UsuariosTabela()" class="btn btn-primary">Pegar Users Table</button>
+                                 <button type="button" ng-click="GetApi()" class="btn btn-primary">Pesquisar</button>
+                                 <button type="button" ng-click="ClearTable()" class="btn btn-primary">Limpar Tabela</button>
+                             </div>
+                             <br />
+                    
+                             <div ui-grid="gridOptions" class="ui-grid" >
+                             </div>
+
+                             <!--<table ng-table="usersTable" class="table" show-filter="true">
+                                 <tr ng-repeat="user in Users track by $index">
+                                     <td title="'Nome'" filter="{ PESSOA_NOME: 'text'}" sortable="'PESSOA_NOME'">
+                                         {{user.PESSOA_NOME}}
+                                     </td>
+                                     <td title="'CPF'" filter="{ PESSOA_CPF: 'text'}" sortable="'PESSOA_CPF'">
+                                         {{user.PESSOA_CPF}}
+                                     </td>
+
+                                 </tr>
+                             </table>-->
+                           
+                                <!--<div class="table-responsive" style="overflow-y: scroll;height:750px;">
+                                    <table class="table table-bordered" >
+                                        <thead class="thead-inverse">
+                                            <tr >
+                                                <th data-field="PESSOA_NOME">Usuario</th>
+                                                <th data-field="PESSOA_CPF">Cpf</th>
+                                                <th data-field="PESSOA_ATIVO">Ativo/Inativo</th>
+                                            </tr>
+                                        </thead>
+                                       <tr ng-repeat="x in Users track by $index">
+                                           <td ng-click="LogarUsuario(x)">{{ x.PESSOA_NOME }}</td>
+                                           <td>{{ x.PESSOA_CPF }}</td>
+                                           <td>{{ x.PESSOA_ATIVO }}</td>
+                                       </tr>
+                                    </table>
+                                </div>-->
+
+                             </div>                 
+                         </div>   
+                  
+                    </div>
+                <div class="modal-footer">
+                  
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" ng-click="InsereIdentityUsuario()" class="btn btn-primary">Inserir Users Identity Format</button>
+                    <button type="button" ng-click="GetApi()" class="btn btn-primary">Pesquisar</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Pedido de Solicitação de Acessos</h4>
+                </div>
+
+                <div class="modal-body">
+                
+                    <div class="form-group" style="display:inline-flex">
+
+
+                        <div style="float: none;position: relative;padding: 0px 10px;text-align: center;">
+                            <strong>ADMINISTRACAO</strong>
+                            <div>
+                                <input id="admin" type="checkbox" name="admin" checked>
+                            </div>
+                        </div>
+
+                        <!--<div style="float: none;position: relative;padding: 0px 10px;text-align: center;">
+                            <strong>Sivic</strong>
+                            <div>
+                                <input id="sivic" type="checkbox" name="sivic" checked>
+                            </div>
+                        </div>
+
+                        <div style="float: none;position: relative;padding: 0px 10px;text-align: center;">
+                            <strong>Area Restrita</strong>
+                            <div>
+                                <input id="area" type="checkbox" name="area" checked>
+                            </div>
+                        </div>-->
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usuarioForm">Usuário</label>
+                        <input type="text" id="usuarioForm" class="form-control" ng-model="modelUsers.Username" name="usuarioForm" placeholder="Insira o nome completo.." value="" />
+                    </div>
+
+                    
+
+                    <div class="form-group">
+                        <label for="emailForm">E-mail</label>
+                        <input type="text" id="emailForm" class="form-control" ng-model="modelUsers.email" name="emailForm" placeholder="Insira seu  email.." value="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="superiorForm">Superior</label>
+                        <input type="text" id="superiorForm" class="form-control" ng-model="modelUsers.Superior" name="superiorForm" placeholder="Insira o nome do usuario" value="" />
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>   
+                    <button type="button" ng-click="GetApi()" class="btn btn-primary" data-dismiss="modal">Enviar Solicitação</button>
+                   
+                </div>
+            </div>
+
+        </div>
+    </div>  
+        </div>
+    <footer>
+        <div class="footer">
+            <div class="container-fluid">
+               <!-- <img src="../../../packagsConseg/img/gti.png" alt="GTI">-->
+                &nbsp;&nbsp; LINX - 2017 - SERVIDOR DE AUTENTICAÇÃO VIA TOKEN E CERTIFICADO DIGITAL
+            </div>
+        </div>
+    </footer>
+
+    <script id='modelJson' type='application/json'>
+        {model}
+    </script>
+   
+    <script src="/Services/content/libs/jquery/jquery-1.11.0.min.js"></script>
+    <script src="/Services/content/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Services/content/libs/angular/angular.min.js"></script>
+    <!--<script src="../libs/bootstrap/js/ui-bootstrap-tpls-1.3.3.min.js"></script>-->
+    <script src="/Services/content/libs/encoder/encoder.min.js"></script>
+ 
+
+    {script1}
+    {script2}
+    {script3}
+    {script5}
+    <script src="/Services/content/app/app.js"></script>
+   
+</body>
+</html>
+

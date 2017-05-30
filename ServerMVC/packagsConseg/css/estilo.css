@@ -1,0 +1,241 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    background-color: #336699;
+    border-color: #336699;
+}
+
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+    color: #ccc;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+    color: #fff;
+    background-color: #4B83BB;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    color: #fff;
+    background-color: #4B83BB;
+}
+
+.navbar-default {
+    background-color: #336699;
+    border-color: #336699;
+}
+
+.navbar {
+    border-radius: 0px;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: #336699;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus, .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover {
+    background-color: #4B83BB;
+    color: #fff;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #fff;
+}
+
+.dropdown-menu {
+    background-color: #336699;
+}
+
+
+
+.ui-grid-top-panel {
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3e79b4), color-stop(1, #3e79b4)) !important;
+    color: #fff;
+}
+
+
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #fff;
+    background-color: #ed8408;
+    font-size: 14px;
+}
+
+.panel-default {
+    display: inline-block;
+    padding-bottom: 20px;
+    padding: 0px;
+    margin-right:10px;
+}
+
+.griddelegacias {
+    height: 550px;
+    width: 100%;
+}
+
+.table > thead > tr > th {
+    background-color: #3e79b4;
+    color: #fff;
+}
+
+td, th {
+    border-left: 1px solid #fff;
+}
+
+a {
+    color: #000;
+}
+
+    a:focus, a:hover {
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+
+.nav-pills > li > a {
+    background-color: #337ab7;
+    color: #fff;
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+    background-color: #4a8fca;
+    color: #fff;
+}
+
+.margintop1 {
+    margin-top: 20px;
+}
+
+.margintop2 {
+    margin-top: 30px;
+}
+
+@media only screen and (max-width: 2000px) and (min-width: 700px) {
+    .marginleft1 {
+        margin-left: 30%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .marginleft1 {
+        margin-left: 0%;
+    }
+}
+
+.marginbottom1 {
+    margin-bottom: 20px;
+}
+
+.marginbottom2 {
+    margin-bottom: 20px;
+}
+
+.floatrigth {
+    float: right;
+}
+.floatleft {
+    float:left;
+}
+.bt1 {
+    float: right;
+    margin-top: 20px;
+    margin-right: 15px;
+}
+
+.footer {
+    background-color: #336699;
+    margin: 0;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.1em;
+    color: #FFF;
+    margin-top: 100px;
+}
+
+.textotitulo {
+    color: #4B83BB;
+}
+
+.textobold {
+    font-weight: bold;
+}
+
+.imgmapa {
+    margin-top: 50px;
+    margin-left: 25%;
+}
+
+.textocinza {
+    color: silver;
+}
+
+.padding {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.imgusuario {
+    margin-top: 7px;
+}
+.cursor {
+    cursor:pointer;
+}
+@media only screen and (max-width: 2000px) and (min-width: 700px) {
+    .textologo {
+    font-family:Tahoma;
+    font-size:2.5em;
+    color:#29166f;
+    font-weight:bold;
+    margin-top:40px;
+    margin-left:40px;
+    
+}
+}
+.textologo {
+    font-family:Tahoma;
+    font-size:2.5em;
+    color:#29166f;
+    font-weight:bold;
+    margin-top:40px;
+    
+}
+.textosecretaria {
+    font-family:Tahoma;
+    font-size:0.9em;
+    color:#b1b0b0;
+    font-weight:bold;
+    margin-top:51px;
+}
+.textoconseg {
+    font-family:Tahoma;
+    font-size:0.9em;
+    color:#000;
+    font-weight:bold;
+    margin-top:-3px;
+}
+.breadcrumb > li + li:before {
+    content: "|";
+    padding: 0 5px;
+    color: #ccc;
+}
+
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 0px;
+    list-style: none;
+    background-color:#fff;
+    border-radius: 4px;
+    font-size:11px;
+}
+.painel {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2), 0 0px 21px 0 rgba(0, 0, 0, 0.19);
+    padding-bottom:5px;
+    margin-bottom:5px;
+}
