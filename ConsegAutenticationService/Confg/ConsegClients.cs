@@ -1,67 +1,64 @@
-﻿using IdentityServer3.Core.Models;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services.InMemory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 
 namespace LinxServerAuthentication.Confg
 {
-    public class ConsegClients
+    public class ConsegUsers
     {
-        public static List<Client> Get()
+        public static List<InMemoryUser> Get()
         {
             LinxServerAuthentication.Context.dbContext db = new LinxServerAuthentication.Context.dbContext();
-            
-            Client clients = new Client();
-            List<Client> Listclients = new List<Client>();
-            var ResultClients = db._Client.ToList();
 
-            List<string> liststring = db._Scope.Select(d => d.Name).ToList<string>();
+            var resultUser = db._User.ToList();
+            List<InMemoryUser> InUser = new List<InMemoryUser>();
 
-            foreach (var item in ResultClients)
+            foreach (var item in resultUser)
             {
-                //var clientid = db._ClientSecret.Where(d => d.Client.Id == item.Id).Select(d => d.Value.ToString()).SingleOrDefault().ToString();
-                //var Urli = db._ClientRedirectUri.Where(d => d.Client.Id == item.Id).Select(d => d.Uri.ToString()).Single();
-                //var Urlo = db._ClientPostLogoutRedirectUri.Where(d => d.Client.Id == item.Id).Select(d => d.Uri.ToString()).Single();
+                List<Repository.entidades.RolesAccess> roles = db._RolesAccess.Where(d => d.IdUser.ToString() == item.Subject).ToList();
+                List<Repository.entidades.UserClaimsConseg> claimsUser = db._UserClaimsConseg.Where(d => d.IdUser.ToString() == item.Subject).ToList();
 
-                List<string> ListSt = db._ClientScope.Where(d => d.Client.Id == item.Id).Select(d => d.Scope).ToList<string>();
+                string Name = claimsUser.Where(d=> d.IdUser.ToString() == item.Subject).Select(d => d.Name).SingleOrDefault().ToString();
 
-                if (item.ClientId == "Linx" || item.ClientId == "ConsegRouter" || item.ClientId == "AdminConseg")
+                var ADMIN = roles.Count(d => d.IdUser.ToString() == item.Subject && d.Value == "ADMIN") == 0 ? "NAO" : "ADMIN";
+                var USER = roles.Count(d => d.IdUser.ToString() == item.Subject && d.Value == "USER") == 0 ? "NAO" : "USER";
+                var CLIENTE = roles.Count(d => d.IdUser.ToString() == item.Subject && d.Value == "CLIENTE") == 0 ? "NAO" : "CLIENTE";
+                var ACESSOLIMIT = "";
+
+                if (ADMIN == "ADMIN")
+                    ACESSOLIMIT = "ADMIN";
+                if (ADMIN == "USER")
+                    ACESSOLIMIT = "USER";
+                if (ADMIN == "CLIENTE")
+                    ACESSOLIMIT = "CLIENTE";
+
+
+                var InUserMemory = new InMemoryUser
                 {
+                    Username = item.Username,
+                    Password = item.Password,
+                    Subject = item.Subject,                   
+                    Claims = new Claim[]
+                    {
+                        new Claim(Constants.ClaimTypes.Name, "Paulo"),//claimsUser.Select(d=>d.Name).SingleOrDefault().ToString()),
+                        new Claim(Constants.ClaimTypes.GivenName, "Natale"),//claimsUser.Select(d=>d.GivenName).SingleOrDefault().ToString()),
+                        new Claim(Constants.ClaimTypes.FamilyName, "Linx"),//claimsUser.Select(d=>d.FamilyName).SingleOrDefault().ToString()),
+                        new Claim(Constants.ClaimTypes.Secret, "LinxClient".Sha256()),//claimsUser.Select(d=>d.Secret).SingleOrDefault().ToString().Sha256()),
+                        new Claim(Constants.ClaimTypes.Email, "paulo000natale@gmail.com"),//claimsUser.Select(d=>d.Email).SingleOrDefault().ToString()),
+                        new Claim(Constants.ClaimTypes.EmailVerified, "paulo000natale@gmail.com"),//claimsUser.Select(d=>d.EmailVerified).SingleOrDefault().ToString(),ClaimValueTypes.Boolean),
+                        new Claim(Constants.ClaimTypes.Role,ACESSOLIMIT)
+                     
+                    }
 
-                    clients = new Client
-                    {
-                        ClientName = item.ClientName,
-                        ClientId = item.ClientId,
-                        Enabled = true,
-                        RequireConsent = item.RequireConsent,
-                        Flow = (Flows)item.Flow,
-                        ClientSecrets = new List<Secret> {
-                        new Secret(db._ClientSecret.Where(d=>d.Client.Id == item.Id).Select(d=>d.Value.ToString()).Single().ToString())
-                    },
-                        AbsoluteRefreshTokenLifetime = 86400,
-                        SlidingRefreshTokenLifetime = 43200,
-                        RefreshTokenUsage = TokenUsage.OneTimeOnly,
-                        RefreshTokenExpiration = TokenExpiration.Sliding,
-                        RedirectUris = new List<string>
-                    {
-                       db._ClientRedirectUri.Where(d=>d.Client.Id == item.Id).Select(d=>d.Uri.ToString()).Single(),
-                    },
-                        PostLogoutRedirectUris = new List<string>
-                    {
-                        db._ClientPostLogoutRedirectUri.Where(d=>d.Client.Id == item.Id).Select(d=>d.Uri.ToString()).Single(),
-                    },
-                        AllowedScopes = ListSt
-                    };
-                    Listclients.Add(clients);
-                }
-              
-               
+                };
+                InUser.Add(InUserMemory);  
             }
-            return Listclients;
-
-        }
-        
-      
+            return InUser;
+         }
     }
 }
